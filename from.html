@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>Vue Validation</title>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
+	    <script type="text/javascript" src="vue.js"></script>
+  	</head>
+  	<body>
+  		<form method="post">
+			<section class="section">				
+			    <div class="container" id="app">
+			    	<h1 class="title">
+				        Vue Basic Form Validation
+				    </h1>
+				    <div class="field">
+					  <label class="label">Username</label>
+					  <div class="control has-icons-left has-icons-right">
+					    <input class="input" type="text" v-model='username'>
+					    <span class="icon is-small is-left">
+					      <i class="fa fa-user"></i>
+					    </span>
+					  </div>
+					  <p v-if="username.trim() == ''" class="help is-danger">This username is required.</p>
+					</div>
+
+					<div class="field">
+					  <label class="label">Email</label>
+					  <div class="control has-icons-left has-icons-right">
+					    <input @keyUp="validateEmail()" class="input" type="email" placeholder="Email input" v-model="email">
+					    <span class="icon is-small is-left">
+					      <i class="fa fa-envelope"></i>
+					    </span>
+					  </div>
+					  <p v-if="email.trim() == ''" class="help is-danger">Email address is required.</p>
+					  <p v-if="!validEmail && email.trim() != ''" class="help is-danger">Invalid email address.</p>
+					</div>
+
+					<div class="field">
+					  <label class="label">Qualification</label>
+					  <div class="control">
+					    <div class="select">
+					      <select v-model="qualification">
+					      	<option value="0">Select</option>
+					        <option value="mca">MCA</option>
+					        <option value="mba">MBA</option>
+					      </select>
+					    </div>
+					  </div>
+					  <p v-if="qualification.trim() == '' || qualification.trim() == 0" class="help is-danger">Qualification is required.</p>
+					</div>
+
+					<div class="field">
+					  <label class="label">Message</label>
+					  <div class="control">
+					    <textarea class="textarea" placeholder="Textarea" v-model="message"></textarea>
+					  </div>
+					  <p v-if="message.trim() == ''" class="help is-danger">Message is required field.</p>
+					</div>				
+
+					<div class="field is-grouped">
+					  <div class="control">
+					    <button class="button is-link" :disabled="
+					    username.trim() == '' ||
+					    message.trim() == '' ||
+					    !validEmail || 
+					    email.trim() == '' ||
+					    qualification.trim() == '' || 
+					    qualification.trim() == 0				    
+					    ">Submit</button>
+					    <!--  -->
+					  </div>				  
+					</div>
+				</div>
+		  	</section>
+	  	</form>
+	</body>
+</html>
+
+
+<script type="text/javascript">
+	new Vue({
+		el:"#app",
+		data : {
+			username : "",
+			email : "",
+			validEmail : true,
+			qualification : "0",
+			message : ""
+		},
+		methods :
+		{
+			validateEmail()
+			{
+				if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email))  
+				{  
+				   this.validEmail = true;
+				}
+				else
+				{
+				    this.validEmail = false;
+				}				
+			}
+		}
+	});
+</script>
